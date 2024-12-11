@@ -1,0 +1,51 @@
+// Suprimme les avertissements temporairement de sass
+$quiet-deps: true;
+@use '~bootstrap/scss/bootstrap';
+
+body {
+  padding-top: 5rem;
+}
+th {
+  cursor: pointer;
+}
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.container {
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+.footer {
+  background-color: #f5f5f5;
+  padding: 0 15px;
+  text-align: center;
+}
+.error_message {
+  color: red;
+  font-weight: bold;
+}
+.custom-switch {
+  padding-top: 0.5rem;
+}
+table.dataTable tbody tr.even:hover {
+  background-color: #DAF7A6 ;
+  cursor: pointer;
+}
+table.dataTable tbody tr.odd:hover {
+  background-color: #DAF7A6 ;
+  cursor: pointer;
+}
+table {
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
