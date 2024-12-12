@@ -157,31 +157,34 @@ const ProductList = () => {
       <div className='container-fluid text-center p-3'>
         <h1>Search the Damco catalog </h1>
         <Formik
-          initialValues={{ search: '',}}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-          >
-            {({ isSubmitting }) => (
-              <Form>
-                <FormGroup>
-                  <p>
-                    <FormLabel htmlFor="search">Type the name of a part, or a product number, in order to obtain its price and availability: </FormLabel>
-                  </p>
-                  <div>
-                    <Field type="text" name="search" placeholder="12-345-67" size="28"/>
-                    <StyledButton type="primary" $htmlType="submit" loading={isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
-                      Search
-                    </StyledButton>
-                  </div>
-                <ErrorMessage name="search" component={Error} />
-                </FormGroup>
-              </Form>
-            )}
+        initialValues={{ search: '',}}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <FormGroup>
+                <p>
+                  <FormLabel htmlFor="search">Type the product number in order to obtain its price and availability: </FormLabel>
+                </p>
+                <div>
+                  <Field type="text" name="search" placeholder="12-345-67" size="28"/>
+                  <StyledButton type="primary" $htmlType="submit" loading={isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
+                    Search
+                  </StyledButton>
+                </div>
+              <ErrorMessage name="search" component={Error} />
+              </FormGroup>
+            </Form>
+          )}
         </Formik>
-        {loading &&
-        <SpinnerContainer>
-            <Spin size="large" />
-        </SpinnerContainer>
+        {loading && 
+        <div className='container'>
+          <img src='/images/loading.gif' alt='loading...'/>
+          <p>
+            Riding through the Cycle Babac catalog...
+          </p>
+        </div>
         }
         {!loading && products.length != 0 &&
         <ProductListContainer>

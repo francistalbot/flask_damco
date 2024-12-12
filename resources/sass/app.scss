@@ -43,6 +43,9 @@ table.dataTable tbody tr.odd:hover {
 table {
   align-items: center;
 }
+.bg-dark {
+  background-color: #343a40 !important
+}
 
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {

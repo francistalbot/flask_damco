@@ -17,9 +17,7 @@
     </nav>
     <!--Main Content -->
     <div class="flex-shrink-0">
-        <div class="container-fluid text-center p-3">
         <div id="root"></div>
-        </div>
     </div>
     <footer class="footer mt-auto py-3">
         <div>   
