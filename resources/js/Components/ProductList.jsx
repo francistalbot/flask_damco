@@ -182,7 +182,7 @@ const ProductList = () => {
       }
       {!loading && products.length != 0 &&
       <ProductListContainer>
-        <table id="productTable" className="display">
+        <table id="productTable" className="display mx-auto">
           <thead>
             <tr>
               <th>Damco #</th>

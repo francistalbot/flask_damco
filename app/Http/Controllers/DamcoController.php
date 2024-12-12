@@ -13,7 +13,7 @@ class DamcoController extends Controller
 
     public function DamcoSearch(Request $request)
     {
-        $base_url = "https://www.damourbicycle.com/";
+        $base_url = "https://www.damourbicycle.com";
         $search_url = "https://www.damourbicycle.com/search-damco/";
         $login_url = "https://www.damourbicycle.com/user/login";
         
@@ -22,7 +22,7 @@ class DamcoController extends Controller
 
         // Valider le terme de recherche
         if (preg_match($this->skuPattern, $searchTerm)){
-            $recherche =$this-> do_the_search($searchTerm, $search_url, $login_url);
+            $recherche =$this-> do_the_search($searchTerm, $search_url, $login_url, $base_url);
            return $recherche;
         }
         else{  
@@ -33,7 +33,7 @@ class DamcoController extends Controller
         }
     }
 
-    private function do_the_search(string $searchTerm, string $search_url, string $login_url)
+    private function do_the_search(string $searchTerm, string $search_url, string $login_url, string $base_url)
     {
         try{
             //Load credentials for the connexion
@@ -46,7 +46,7 @@ class DamcoController extends Controller
                 //Search on the website and get the html cards of every product returned
                 $list_cards = $this -> search_item($client, $searchTerm, $search_url);
                 //Extract specific value (name, price, etc) from each cards
-                $list_products = $this -> parse_results($list_cards);
+                $list_products = $this -> parse_results($list_cards, $base_url);
                 return response()->json([
                     'success' => true,
                     'list_products' => $list_products,
@@ -152,7 +152,7 @@ class DamcoController extends Controller
         return $list_cards;
     }
 
-    private function parse_results(array $list_cards)
+    private function parse_results(array $list_cards, string $base_url)
     {
         $list_products = [];
         foreach( $list_cards as $card){
@@ -172,10 +172,10 @@ class DamcoController extends Controller
                 $item_instock = false;
             }
             else{
-                $item_instock = 'Unable de determine';
+                $item_instock = 'Unable to determine';
             }
             $html_page_url = $this -> extractHtmlElements( $card, 'a', '','','href');
-            $item_page_url = $html_page_url[0];
+            $item_page_url = $base_url . $html_page_url[0];
 
             $list_products[] = [
                 'sku' => $item_sku,
