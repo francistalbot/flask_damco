@@ -23,8 +23,9 @@
     </div>
     <footer class="footer mt-auto py-3">
         <div>   
-            <img src="/build/assets/img/github_logo_32px.png" alt="GitHub logo" width="24px" \="">
-            <a href="/">
+            <img src="/images/github_logo_32px.png" alt="GitHub logo" width="24px" \="">
+            <a href="https://github.com/francistalbot/flask_damco"
+            class=" link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                 <span class="text-muted">Flask Damco on GitHub</span>
             </a>
         </div>

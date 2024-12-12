@@ -162,11 +162,11 @@ const ProductList = () => {
           <Form>
             <FormGroup>
                 <p>
-                  <FormLabel for="search">Type the name of a part, or a product number, in order to obtain its price and availability: </FormLabel>
+                  <FormLabel htmlFor="search">Type the name of a part, or a product number, in order to obtain its price and availability: </FormLabel>
                 </p>
               <div>
                 <Field type="text" name="search" placeholder="12-345-67" size="28"/>
-                <StyledButton type="primary" htmlType="submit" loading={isSubmitting} iconPosition="end" >
+                <StyledButton type="primary" $htmlType="submit" loading={isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
                   Search
                 </StyledButton>
               </div>
@@ -182,8 +182,8 @@ const ProductList = () => {
       }
       {!loading && products.length != 0 &&
       <ProductListContainer>
-        <table id="productTable" class="display">
-         {/**  */} <thead>
+        <table id="productTable" className="display">
+          <thead>
             <tr>
               <th>Damco #</th>
               <th>Name</th>
@@ -191,10 +191,15 @@ const ProductList = () => {
               <th>In Stock?</th>
             </tr>
           </thead>
-          <tbody>   
+          <tbody>        
            {products.map((product) => (
-              <tr>
-                <td href={product.page_url}>{product.sku}</td>
+              <tr key={product.sku}>
+                <td>
+                  <a href={product.page_url} 
+                  className=" link-underline link-underline-opacity-0 link-underline-opacity-100-hover" target="_blank">
+                    {product.sku}
+                  </a>
+                </td>
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.instock ? "Yes":"No"}</td>
