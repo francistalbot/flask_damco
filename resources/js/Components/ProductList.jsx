@@ -114,7 +114,6 @@ const ProductList = () => {
   useEffect(() => {
     if(search)
       axios
-      //.get('https://jsonplaceholder.typicode.com/posts')
       .get('damco-search?search=' + search)
       .then((response) => {
         setProducts(response.data.list_products);
@@ -126,8 +125,6 @@ const ProductList = () => {
         setLoading(false);
         setSearch();
       });
-    else
-      setLoading(false)
  }, [search]);
 
   
@@ -152,63 +149,70 @@ const ProductList = () => {
   });
   return (
     <div>
-      <h1>Search the Damco catalog </h1>
-     <Formik
+      {products.length === 0 && (
+      <div className='container-fluid text-center p-3'>
+        <img className='img-fluid' src='/images/logo240px.png' alt='logo Flask Damco'/>
+      </div> 
+      )}
+      <div className='container-fluid text-center p-3'>
+        <h1>Search the Damco catalog </h1>
+        <Formik
           initialValues={{ search: '',}}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
-        >
-         {/**   */}{({ isSubmitting }) => (
-          <Form>
-            <FormGroup>
-                <p>
-                  <FormLabel htmlFor="search">Type the name of a part, or a product number, in order to obtain its price and availability: </FormLabel>
-                </p>
-              <div>
-                <Field type="text" name="search" placeholder="12-345-67" size="28"/>
-                <StyledButton type="primary" $htmlType="submit" loading={isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
-                  Search
-                </StyledButton>
-              </div>
-              <ErrorMessage name="search" component={Error} />
-            </FormGroup>
-          </Form>
-        )}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <FormGroup>
+                  <p>
+                    <FormLabel htmlFor="search">Type the name of a part, or a product number, in order to obtain its price and availability: </FormLabel>
+                  </p>
+                  <div>
+                    <Field type="text" name="search" placeholder="12-345-67" size="28"/>
+                    <StyledButton type="primary" $htmlType="submit" loading={isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
+                      Search
+                    </StyledButton>
+                  </div>
+                <ErrorMessage name="search" component={Error} />
+                </FormGroup>
+              </Form>
+            )}
         </Formik>
-      {loading &&
-      <SpinnerContainer>
-        <Spin size="large" />
-      </SpinnerContainer>
-      }
-      {!loading && products.length != 0 &&
-      <ProductListContainer>
-        <table id="productTable" className="display mx-auto">
-          <thead>
-            <tr>
-              <th>Damco #</th>
-              <th>Name</th>
-              <th>Retail price</th>
-              <th>In Stock?</th>
-            </tr>
-          </thead>
-          <tbody>        
-           {products.map((product) => (
-              <tr key={product.sku}>
-                <td>
-                  <a href={product.page_url} 
-                  className=" link-underline link-underline-opacity-0 link-underline-opacity-100-hover" target="_blank">
-                    {product.sku}
-                  </a>
-                </td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.instock ? "Yes":"No"}</td>
-              </tr>
-            ))}
-          </tbody>  
-        </table>
-      </ProductListContainer>
-      }
+        {loading &&
+        <SpinnerContainer>
+            <Spin size="large" />
+        </SpinnerContainer>
+        }
+        {!loading && products.length != 0 &&
+        <ProductListContainer>
+            <table id="productTable" className="display mx-auto">
+              <thead>
+                <tr>
+                  <th>Damco #</th>
+                  <th>Name</th>
+                  <th>Retail price</th>
+                  <th>In Stock?</th>
+                </tr>
+              </thead>
+              <tbody>        
+              {products.map((product) => (
+                  <tr key={product.sku}>
+                    <td>
+                      <a href={product.page_url} 
+                      className=" link-underline link-underline-opacity-0 link-underline-opacity-100-hover" target="_blank">
+                        {product.sku}
+                      </a>
+                    </td>
+                    <td>{product.name}</td>
+                    <td>{product.price}</td>
+                    <td>{product.instock ? "Yes":"No"}</td>
+                  </tr>
+                ))}
+              </tbody>  
+            </table>
+        </ProductListContainer>
+        }
+      </div>
     </div>
   );
 };
