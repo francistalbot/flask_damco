@@ -178,6 +178,7 @@ const ProductList = () => {
             </Form>
           )}
         </Formik>
+        <img id='preload-image' src='/images/loading.gif' alt='loading...'/>
         {loading && 
         <div className='container'>
           <img src='/images/loading.gif' alt='loading...'/>
