@@ -17,7 +17,7 @@ A Php/React application to search the Damco catalogue and return description, pr
 git clone (https://github.com/francistalbot/flask_damco)
 ```
 
-2. Install PHP
+2. Install Prerequisite
 
 Check your version of PHP with
 
