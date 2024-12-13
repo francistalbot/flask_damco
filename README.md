@@ -6,7 +6,7 @@ A Php/React application to search the Damco catalogue and return description, pr
 ### Prerequisite 
 - PHP (compatible version with Laravel)
 - Composer
-- Node.js et npm
+- Node.js (>=16) and npm
 - Local Web Server (or use `php artisan serve`)
 
 ### Installation steps
@@ -28,13 +28,15 @@ php -v
 #### For MacOs
    
 ```bash
-brew install php@8.1
+brew install php@8.2
 ```
 #### For Linux
    
 ```bash
 sudo apt update
-sudo apt install php8.1
+sudo apt install php8.2 php8.2-cli php8.2-common php8.2-intl php8.2-mysql php8.2-xml php8.2-mbstring
+sudo apt install composer
+sudo apt install npm
 ```
 #### For Windows
 Install manually from https://windows.php.net/
