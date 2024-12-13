@@ -23,6 +23,9 @@ Check your version of PHP with
 
 ```bash
 php -v
+composer -v
+npm -v
+node -v
 ```
 
 #### For MacOs
@@ -37,6 +40,7 @@ sudo apt update
 sudo apt install php8.2 php8.2-cli php8.2-common php8.2-intl php8.2-mysql php8.2-xml php8.2-mbstring
 sudo apt install composer
 sudo apt install npm
+sudo apt install nodejs
 ```
 #### For Windows
 Install manually from https://windows.php.net/
