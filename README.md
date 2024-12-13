@@ -19,7 +19,7 @@ git clone (https://github.com/francistalbot/flask_damco)
 
 2. Install Prerequisite
 
-Check your version of PHP with
+Check your versions with
 
 ```bash
 php -v
