@@ -162,14 +162,14 @@ const ProductList = () => {
         onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
-            <Form>
+            <Form className='mb-3'>
               <FormGroup>
                 <p>
                   <FormLabel htmlFor="search">Type the product number in order to obtain its price and availability: </FormLabel>
                 </p>
                 <div>
                   <Field type="text" name="search" placeholder="12-345-67" size="28"/>
-                  <StyledButton type="primary" $htmlType="submit" loading={isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
+                  <StyledButton type="primary" $htmlType="submit" loading= {isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
                     Search
                   </StyledButton>
                 </div>
@@ -183,12 +183,13 @@ const ProductList = () => {
         <div className='container'>
           <img src='/images/loading.gif' alt='loading...'/>
           <p>
-            Riding through the Cycle Babac catalog...
+            Riding through the Damco catalog...
           </p>
         </div>
         }
-        {!loading && products.length != 0 &&
-        <ProductListContainer>
+        {loading === false && ( 
+          products.length != 0 ?(
+            <ProductListContainer>
             <table id="productTable" className="display mx-auto">
               <thead>
                 <tr>
@@ -214,8 +215,11 @@ const ProductList = () => {
                 ))}
               </tbody>  
             </table>
-        </ProductListContainer>
-        }
+            </ProductListContainer>
+          ) : (
+            <p className='error_message'>No product found.</p>
+          )
+        )}
       </div>
     </div>
   );
