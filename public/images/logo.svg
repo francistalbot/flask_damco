@@ -2,23 +2,23 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="254mm"
    height="254mm"
    viewBox="0 0 254 254"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="logo.svg"
    inkscape:export-filename="/home/norm/Softwares/flask_babac/flask_babac/logo640.png"
    inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96">
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -29,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="487.2445"
-     inkscape:cy="466.09026"
+     inkscape:cx="487.90368"
+     inkscape:cy="466.69047"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -38,11 +38,12 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1284"
-     inkscape:window-height="881"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
      inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="0" />
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -51,7 +52,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -142,5 +142,10 @@
          style="fill:#2c2c29;fill-opacity:1;stroke-width:0.42911842"
          id="rect3264" />
     </g>
+    <path
+       style="fill:#aa0000;stroke:none;stroke-width:2.02031"
+       d="M 486.89352,817.49047 C 471.01839,810.05035 206.60124,656.74291 201.53524,652.04149 c -8.22412,-7.63229 -14.65702,-23.4399 -14.65702,-36.01679 0,-9.64671 1.05663,-13.04797 6.56599,-21.13571 6.69464,-9.82772 18.84482,-17.61464 195.07494,-125.02137 l 22.84393,-13.92266 10.49111,10.23616 c 25.03907,24.43063 43.15551,30.88848 90.68371,32.32543 37.36522,1.12968 44.66561,3.29943 47.3847,14.0832 1.98604,7.87655 -8.76816,272.62788 -11.45284,281.95044 -2.74796,9.5423 -12.99038,21.406 -21.57876,24.99446 -10.37514,4.33501 -28.34573,3.41658 -39.99748,-2.04418 z M 403.62083,647.7566 c 7.86198,-3.36392 16.58034,-12.33874 19.50455,-20.07832 3.19057,-8.44451 2.60343,-25.06891 -1.16594,-33.01222 -3.98135,-8.39008 -13.92075,-16.36514 -23.79347,-19.09113 l -7.2214,-1.99392 4.0077,-4.30176 c 14.01263,-15.0408 -0.0267,-40.09065 -20.90017,-37.29153 -17.95614,2.40791 -26.00476,23.62332 -14.2582,37.5833 2.87669,3.41876 6.72038,6.21593 8.54153,6.21593 2.14844,0 0.65168,2.19218 -4.26235,6.24274 -12.74286,10.50374 -17.66791,24.93208 -13.62963,39.92911 2.67123,9.92019 12.64838,22.0138 21.25512,25.764 8.02778,3.49793 23.78708,3.51461 31.92226,0.0338 z m 87.87392,-71.07406 c 6.31345,-4.42211 6.31345,-17.57213 0,-21.99424 -9.89774,-6.93265 -22.44725,-0.78454 -22.44725,10.99712 0,11.78166 12.54951,17.92978 22.44725,10.99712 z"
+       id="path153"
+       transform="matrix(0.26458333,0,0,0.26458333,-638.62124,-144.69825)" />
   </g>
 </svg>
