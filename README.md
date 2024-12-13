@@ -28,13 +28,13 @@ php -v
 #### For MacOs
    
 ```bash
-brew install php@8.1
+brew install php@8.2
 ```
 #### For Linux
    
 ```bash
 sudo apt update
-sudo apt install php8.1
+sudo apt install php8.2
 sudo apt install composer
 sudo apt install npm
 ```
