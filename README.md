@@ -34,7 +34,7 @@ brew install php@8.2
    
 ```bash
 sudo apt update
-sudo apt install php8.2
+sudo apt install php8.2 php8.2-cli php8.2-common php8.2-intl php8.2-mysql php8.2-xml php8.2-mbstring
 sudo apt install composer
 sudo apt install npm
 ```
