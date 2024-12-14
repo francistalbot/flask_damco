@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Button, FormGroup, FormLabel } from 'react-bootstrap';
-
+import DataTable from 'datatables.net-react';
+import DT from 'datatables.net-dt';
+import 'datatables.net-dt/css/dataTables.dataTables.css';
+DataTable.use(DT);
 // Styled Components
 const Container = styled.div`
 `;
@@ -79,18 +82,47 @@ const ProductList = () => {
         {loading &&
           <LoadingAnimation/>
         }
-        {loading === false && ( 
+         
+      {loading === false && ( 
           products.length != 0 ?(
            <ProductsTable products={products} error={error}/>
           ) : (
             <p className='error_message'>No product found.</p>
           )
-        )}
+        )} 
       </div>
     </div>
   );
 };
+
 const ProductsTable = ({products, error}) => {
+
+  const columns = [
+  {
+    title: 'SKU',
+    data: 'null', 
+    render: (data, type, row) => (
+      `<a 
+      href="${row.page_url}" 
+      target="_blank"
+      class=" link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+      ${row.sku}
+      </a>`
+    )
+  },
+  {
+    title: 'Name',
+    data: 'name'  // Correspond à la clé "name"
+  },
+  {
+    title: 'Price',
+    data: 'price'  // Correspond à la clé "price"
+  },
+  {
+    title: 'In Stock',
+    data: 'instock',  // Correspond à la clé "instock"
+    render: (data) => (data ? 'Yes' : 'No')  // Convertir les booléens en texte lisible
+  }];
 
   if (error) {
     return (
@@ -99,35 +131,16 @@ const ProductsTable = ({products, error}) => {
       </Container>
     );
   }
-  
-  return(  
-    <table id="productsTable" className="display mx-auto">
-      <thead>
-        <tr>
-          <th>Damco #</th>
-          <th>Name</th>
-          <th>Retail price</th>
-          <th>In Stock?</th>
-        </tr>
-      </thead>
-      <tbody>        
-        {products.map((product) => (
-          <tr key={product.sku}>
-            <td>
-              <a href={product.page_url} 
-              className=" link-underline link-underline-opacity-0 link-underline-opacity-100-hover" target="_blank">
-                {product.sku}
-              </a>
-            </td>
-            <td>{product.name}</td>
-            <td>{product.price}</td>
-            <td>{product.instock ? "Yes":"No"}</td>
-          </tr>
-        ))}
-      </tbody>  
-    </table>
-  )};
+ return(   
+  <DataTable 
+  data={products}  
+  className="display" 
+  columns={columns}>
+    </DataTable>
+)};
+
 const LoadingAnimation = () => {
+
   return(
     <div className='container'>
       <img src='/images/loading.gif' alt='loading...'/>
@@ -137,6 +150,7 @@ const LoadingAnimation = () => {
     </div>
   )
 };
+
 const FlaskLogo = () => {
   return(
     <div className='container-fluid text-center p-3'>
@@ -178,4 +192,5 @@ const SearchForm = ({handleSubmit,}) => {
         </Formik>
   )
 };
+
 export default ProductList;

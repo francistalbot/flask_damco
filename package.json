@@ -23,6 +23,8 @@
     },
     "dependencies": {
         "antd": "^5.22.4",
+        "datatables.net-dt": "^2.1.8",
+        "datatables.net-react": "^1.0.0",
         "formik": "^2.4.6",
         "styled-components": "^6.1.13",
         "yup": "^1.5.0"
