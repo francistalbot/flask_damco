@@ -1,7 +1,20 @@
 // Suprimme les avertissements temporairement de sass
 $quiet-deps: true;
 @use '~bootstrap/scss/bootstrap';
-
+table{
+  .thead-dark {
+    th {
+      color: white;
+      background-color: #343a40 !important;
+      border-color: #343a40 !important;
+      text-align: center !important;
+    }
+  }
+    td {
+      
+  color:inherit !important;
+    }
+}
 body {
   padding-top: 5rem;
 }

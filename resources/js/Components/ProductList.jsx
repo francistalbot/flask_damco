@@ -10,13 +10,6 @@ import DT from 'datatables.net-dt';
 import 'datatables.net-dt/css/dataTables.dataTables.css';
 DataTable.use(DT);
 // Styled Components
-const Container = styled.div`
-`;
-
-const ProductListContainer = styled.ul`
-  list-style-type: none;
-  padding: 0;
-`;
 const Error = styled.div`
 color: red;
 font-size: 0.9rem;
@@ -29,7 +22,7 @@ const StyledButton = styled.button`
     margin-left: .2rem;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
+    cursor: pointer;   
     font-size: 1rem;
 
     &:hover {
@@ -55,7 +48,6 @@ const ProductList = () => {
       .then((response) => {
         setProducts(response.data.list_products);
         setLoading(false);
-        setSearch();
       })
       .catch((err) => {
         setError(err.message);
@@ -77,15 +69,19 @@ const ProductList = () => {
       )}
       <div className='container-fluid text-center p-3'>
         <h1>Search the Damco catalog </h1>
-        <SearchForm handleSubmit={handleSubmit}/>
+        <SearchForm handleSubmit={handleSubmit} loading={loading}/>
         <img className='preload-image' src='/images/loading.gif' alt='loading...'/>
         {loading &&
           <LoadingAnimation/>
         }
          
-      {loading === false && ( 
+      {search != null && loading === false && ( 
           products.length != 0 ?(
-           <ProductsTable products={products} error={error}/>
+            <div className='container'>
+              <p>{products.length} results found for <b>{search}</b> on Damco.</p>
+              <p>You can click on the product number in order to access the product page on Danco.</p>
+              <ProductsTable products={products} error={error}/>
+            </div>
           ) : (
             <p className='error_message'>No product found.</p>
           )
@@ -99,8 +95,8 @@ const ProductsTable = ({products, error}) => {
 
   const columns = [
   {
-    title: 'SKU',
-    data: 'null', 
+    title: 'Damco #',
+    data: 'sku', 
     render: (data, type, row) => (
       `<a 
       href="${row.page_url}" 
@@ -115,28 +111,47 @@ const ProductsTable = ({products, error}) => {
     data: 'name'  // Correspond à la clé "name"
   },
   {
-    title: 'Price',
+    title: 'Retail Price',
     data: 'price'  // Correspond à la clé "price"
   },
   {
-    title: 'In Stock',
+    title: 'In Stock?',
     data: 'instock',  // Correspond à la clé "instock"
     render: (data) => (data ? 'Yes' : 'No')  // Convertir les booléens en texte lisible
   }];
-
   if (error) {
     return (
-      <Container>
+      <div>
         <p>Erreur : {error}</p>
-      </Container>
+      </div>
     );
   }
- return(   
-  <DataTable 
-  data={products}  
-  className="display" 
-  columns={columns}>
-    </DataTable>
+ return( 
+    <DataTable 
+    data={products}  
+  className="stripe table-hover table table-sm  no-footer" 
+    options={{
+      paging: true,
+      searching: false,
+      ordering: true,
+      initComplete: function (settings, json) {
+        // Ajoute une classe spécifique à <thead>
+        const table = settings.nTable; // Récupère la table
+        const thead = table.querySelector('thead');
+        if (thead) {
+          thead.classList.add('thead-dark');
+        }
+      },
+      rowCallback: function (row, data) {
+        //Colore le text de la ligne en rouge ou vert selon la disponibilité du produit
+        if (!data.instock) {
+          row.classList.add("text-danger");
+        } else {
+          row.classList.add("text-success");
+        }
+      }
+    }}
+    columns={columns}/>
 )};
 
 const LoadingAnimation = () => {
@@ -159,7 +174,7 @@ const FlaskLogo = () => {
   )
 };
 
-const SearchForm = ({handleSubmit,}) => {
+const SearchForm = ({handleSubmit, loading}) => {
   
   const validationSchema = Yup.object({
     search: Yup.string()
