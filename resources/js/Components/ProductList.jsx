@@ -38,7 +38,7 @@ const StyledButton = styled.button`
 const ProductList = () => {
   const [search, setSearch] = useState('')
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -77,7 +77,8 @@ const ProductList = () => {
           <LoadingAnimation/>
         }
          
-      {search != null && loading === false && ( 
+      { search.valueOf() != ('').valueOf() 
+      && loading === false && ( 
           products.length != 0 ?(
             <div className='container'>
               <p>{products.length} results found for <b>{search}</b> on Damco.</p>
@@ -198,7 +199,7 @@ const SearchForm = ({handleSubmit, loading}) => {
                 </p>
                 <div>
                   <Field type="text" name="search" placeholder="12-345-67" size="28"/>
-                  <StyledButton type="primary" $htmlType="submit" loading= {isSubmitting ? isSubmitting.toString() : undefined} $iconPosition="end" >
+                  <StyledButton type="primary" $htmlType="submit" disabled={loading} $iconPosition="end" >
                     Search
                   </StyledButton>
                 </div>
