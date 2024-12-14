@@ -36,13 +36,13 @@ const StyledButton = styled.button`
 `;
 // Component
 const ProductList = () => {
-  const [search, setSearch] = useState()
+  const [search, setSearch] = useState('')
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState();
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if(search)
+    if(search.valueOf() != ('').valueOf())
       axios
       .get('damco-search?search=' + search)
       .then((response) => {
@@ -52,11 +52,13 @@ const ProductList = () => {
       .catch((err) => {
         setError(err.message);
         setLoading(false);
-        setSearch();
+        setSearch('');
       });
  }, [search]);
 
   const handleSubmit = (values, { resetForm }) => {
+    
+    if(search.valueOf() != (values.search).valueOf())
         setLoading(true);
         setSearch(values.search);
         resetForm();
@@ -98,7 +100,7 @@ const ProductsTable = ({products, error}) => {
     title: 'Damco #',
     data: 'sku', 
     render: (data, type, row) => (
-      `<a 
+    `<a 
       href="${row.page_url}" 
       target="_blank"
       class=" link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
@@ -134,7 +136,7 @@ const ProductsTable = ({products, error}) => {
       paging: true,
       searching: false,
       ordering: true,
-      initComplete: function (settings, json) {
+ initComplete: function (settings, json) {
         // Ajoute une classe spécifique à <thead>
         const table = settings.nTable; // Récupère la table
         const thead = table.querySelector('thead');
@@ -148,7 +150,7 @@ const ProductsTable = ({products, error}) => {
           row.classList.add("text-danger");
         } else {
           row.classList.add("text-success");
-        }
+        } 
       }
     }}
     columns={columns}/>
