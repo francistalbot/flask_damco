@@ -77,27 +77,56 @@ const ProductList = () => {
           <LoadingAnimation/>
         }
 
-      { search.valueOf() != ('').valueOf()
+      {search.valueOf() != ('').valueOf()
       && loading === false && (
-          products.length != 0 ?(
-            <div className='container'>
-              <p>{products.length} results found for <b>{search}</b> on Damco.</p>
-              <p>You can click on the product number in order to access the product page on Damco.</p>
-              {products.length === 220 && (
-                <p>More products on Damco! (list truncated)</p>
-                )}
-              <ProductsTable products={products} error={error}/>
-            </div>
-          ) : (
-            <p className='error_message'>No product found.</p>
-          )
-        )
-    }
+        <SearchResult products={products} loading={loading} search={search} error={error} />
+      )}
       </div>
     </div>
   );
 };
+const SearchResult = ({products,loading,search, error}) => {
+  if (error) {
+    return (
+      <div className='container'>
+        <p className='error_message'>Erreur : {error}</p>
+      </div>
+    );
+  }
+  
+  const searchUrl = "c"+{search};
+  if(products.length == 0) {
+    return(
+      <div className='container'>
+      <p className='error_message'>No product found.</p>
+      </div>
+    );
+  }
 
+  if(products.length >= 0){
+      return(  
+    <div className='container'>
+        {products.length === 120 ? (
+          <p> Lots of items were found. Printing the first 120 items for <b>{search}</b> on Cycle Babac. More results can be inspected&#160; 
+          <a href={`https://www.damourbicycle.com/search-damco?search=${encodeURIComponent(search)}`}>here</a>.
+          </p>
+        ) : (
+          <p>{products.length} results found for <b>{search}</b> on Damco.</p>
+        )}
+        <p>You can click on the product number in order to access the product page on Damco website.</p>
+        
+        <ProductsTable products={products} error={error}/>
+      </div>
+      );
+    }
+  
+    return (
+      <div className='container'>
+        <p className='error_message'>An error have occured</p>
+      </div>
+    );
+  
+}
 const ProductsTable = ({products, error}) => {
 
   const columns = [
@@ -129,13 +158,6 @@ const ProductsTable = ({products, error}) => {
     data: 'instock',  // Correspond à la clé "instock"
     render: (data) => (data ? 'Yes' : 'No')  // Convertir les booléens en texte lisible
   }];
-  if (error) {
-    return (
-      <div>
-        <p>Erreur : {error}</p>
-      </div>
-    );
-  }
  return(
     <DataTable
     data={products}
