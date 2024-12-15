@@ -137,7 +137,7 @@ const ProductsTable = ({products, error}) => {
       paging: true,
       searching: false,
       ordering: true,
- initComplete: function (settings, json) {
+      initComplete: function (settings, json) {
         // Ajoute une classe spécifique à <thead>
         const table = settings.nTable; // Récupère la table
         const thead = table.querySelector('thead');
