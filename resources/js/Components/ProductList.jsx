@@ -82,13 +82,17 @@ const ProductList = () => {
           products.length != 0 ?(
             <div className='container'>
               <p>{products.length} results found for <b>{search}</b> on Damco.</p>
-              <p>You can click on the product number in order to access the product page on Danco.</p>
+              <p>You can click on the product number in order to access the product page on Damco.</p>
+              {products.length === 220 && (
+                <p>More products on Damco! (list truncated)</p>
+                )}
               <ProductsTable products={products} error={error}/>
             </div>
           ) : (
             <p className='error_message'>No product found.</p>
           )
-        )}
+        )
+    }
       </div>
     </div>
   );
@@ -184,8 +188,10 @@ const SearchForm = ({handleSubmit, loading}) => {
 
   const validationSchema = Yup.object({
     search: Yup.string()
-    .required('Identifiant requis')
-    .matches(/^\d{2}[-]?\d{3}[-]?\d{2}$/, 'Le format doit être 12-345-67 ou un format similaire'),
+    .required('Identifiant requis'),
+//     .matches(/^[a-zA-Z0-9 ,-.\/\"]$/, 'Ne peut pas contenir de caractères spéciaux')
+//     .matches(/^\d{2}[-]?\d{3}[-]?\d{2}$/, 'Le format doit être 12-345-67 ou un format similaire')
+// ,
   });
 
   return(

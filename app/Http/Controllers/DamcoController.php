@@ -10,6 +10,8 @@ use Symfony\Component\DomCrawler\Crawler;
 class DamcoController extends Controller
 {
     private $skuPattern = "/^\d{2}[-]?\d{3}[-]?\d{2}$/";
+    private $textPattern = "/[a-zA-Z0-9]/";
+//      ,-.\/\"
 
     public function DamcoSearch(Request $request)
     {
@@ -21,7 +23,11 @@ class DamcoController extends Controller
         $searchTerm = $request->query('search', ''); // Valeur par défaut : chaîne vide
 
         // Valider le terme de recherche
-        if (preg_match($this->skuPattern, $searchTerm)){
+        if (preg_match($this->textPattern, $searchTerm)){
+            $recherche =$this-> do_the_search($searchTerm, $search_url, $login_url, $base_url);
+           return $recherche;
+        }
+        elseif (preg_match($this->textPattern, $searchTerm)){
             $recherche =$this-> do_the_search($searchTerm, $search_url, $login_url, $base_url);
            return $recherche;
         }
@@ -155,6 +161,9 @@ class DamcoController extends Controller
           if ($pagination){
            $last_page_link = $this -> extractHtmlElements($pagination[0],'a', '','','href');
             $last_page = explode("&page=",end($last_page_link))[1];
+            if( (int)$last_page > 10 ){
+              $last_page = 10;
+            }
             for($page = 1; $page <= $last_page; $page++)
                  {
                     $searchDict['page'] = $page;
