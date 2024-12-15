@@ -161,8 +161,8 @@ class DamcoController extends Controller
           if ($pagination){
            $last_page_link = $this -> extractHtmlElements($pagination[0],'a', '','','href');
             $last_page = explode("&page=",end($last_page_link))[1];
-            if( (int)$last_page > 10 ){
-              $last_page = 10;
+            if( (int)$last_page > 5 ){
+              $last_page = 5;
             }
             for($page = 1; $page <= $last_page; $page++)
                  {
