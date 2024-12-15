@@ -152,11 +152,11 @@ class DamcoController extends Controller
 
       // Étape 4 : Vérifie s'il y plusieurs page paginé et ajoute les cartes de produit de chaque pages a la liste
         $pagination = $this -> extractHtmlElements( $searchResponse->getBody(),'nav', 'class', 'pager-nav');
-        if ($pagination[0]){
-            $last_page_link = $this -> extractHtmlElements($pagination[0],'a', '','','href');
+          if ($pagination){
+           $last_page_link = $this -> extractHtmlElements($pagination[0],'a', '','','href');
             $last_page = explode("&page=",end($last_page_link))[1];
             for($page = 1; $page <= $last_page; $page++)
-                {
+                 {
                     $searchDict['page'] = $page;
                     $searchPage = $client->request('GET', $search_url, [
                         'headers' => $headers,
@@ -164,7 +164,7 @@ class DamcoController extends Controller
                         'verify' => false, 
                     ]);
                     $page_cards = $this -> extractHtmlElements( $searchPage->getBody(), 'div','class', 'mb-4 justify-content-center align-items-center vcatalog-item');
-                    $list_cards = array_merge($list_cards,$page_cards );
+                  $list_cards = array_merge($list_cards,$page_cards );
                 }
             }
             
