@@ -188,10 +188,8 @@ const SearchForm = ({handleSubmit, loading}) => {
 
   const validationSchema = Yup.object({
     search: Yup.string()
-    .required('Identifiant requis'),
-//     .matches(/^[a-zA-Z0-9 ,-.\/\"]$/, 'Ne peut pas contenir de caractères spéciaux')
-//     .matches(/^\d{2}[-]?\d{3}[-]?\d{2}$/, 'Le format doit être 12-345-67 ou un format similaire')
-// ,
+    .required('Identifiant requis')
+    .matches(/[a-zA-Z0-9 ,-.\/\"]/, 'Ne peut pas contenir de caractères spéciaux')
   });
 
   return(
