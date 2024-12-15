@@ -22,7 +22,7 @@ const StyledButton = styled.button`
     margin-left: .2rem;
     border: none;
     border-radius: 4px;
-    cursor: pointer;   
+    cursor: pointer;
     font-size: 1rem;
 
     &:hover {
@@ -57,7 +57,7 @@ const ProductList = () => {
  }, [search]);
 
   const handleSubmit = (values, { resetForm }) => {
-    
+
     if(search.valueOf() != (values.search).valueOf())
         setLoading(true);
         setSearch(values.search);
@@ -76,9 +76,9 @@ const ProductList = () => {
         {loading &&
           <LoadingAnimation/>
         }
-         
-      { search.valueOf() != ('').valueOf() 
-      && loading === false && ( 
+
+      { search.valueOf() != ('').valueOf()
+      && loading === false && (
           products.length != 0 ?(
             <div className='container'>
               <p>{products.length} results found for <b>{search}</b> on Damco.</p>
@@ -88,7 +88,7 @@ const ProductList = () => {
           ) : (
             <p className='error_message'>No product found.</p>
           )
-        )} 
+        )}
       </div>
     </div>
   );
@@ -99,10 +99,10 @@ const ProductsTable = ({products, error}) => {
   const columns = [
   {
     title: 'Damco #',
-    data: 'sku', 
+    data: 'sku',
     render: (data, type, row) => (
-    `<a 
-      href="${row.page_url}" 
+    `<a
+      href="${row.page_url}"
       target="_blank"
       class=" link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
       ${row.sku}
@@ -115,7 +115,10 @@ const ProductsTable = ({products, error}) => {
   },
   {
     title: 'Retail Price',
-    data: 'price'  // Correspond à la clé "price"
+    data: 'price',  // Correspond à la clé "price"
+    render: (data) => (
+        `${data}$`
+    )
   },
   {
     title: 'In Stock?',
@@ -129,10 +132,10 @@ const ProductsTable = ({products, error}) => {
       </div>
     );
   }
- return( 
-    <DataTable 
-    data={products}  
-  className="stripe table-hover table table-sm  no-footer" 
+ return(
+    <DataTable
+    data={products}
+  className="stripe table-hover table table-sm  no-footer"
     options={{
       paging: true,
       searching: false,
@@ -151,7 +154,7 @@ const ProductsTable = ({products, error}) => {
           row.classList.add("text-danger");
         } else {
           row.classList.add("text-success");
-        } 
+        }
       }
     }}
     columns={columns}/>
@@ -173,12 +176,12 @@ const FlaskLogo = () => {
   return(
     <div className='container-fluid text-center p-3'>
       <img className='img-fluid' src='/images/logo240px.png' alt='logo Flask Damco'/>
-    </div> 
+    </div>
   )
 };
 
 const SearchForm = ({handleSubmit, loading}) => {
-  
+
   const validationSchema = Yup.object({
     search: Yup.string()
     .required('Identifiant requis')

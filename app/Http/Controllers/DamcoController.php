@@ -16,7 +16,7 @@ class DamcoController extends Controller
         $base_url = "https://www.damourbicycle.com";
         $search_url = "https://www.damourbicycle.com/search-damco/";
         $login_url = "https://www.damourbicycle.com/user/login";
-        
+
         // Récupérez le paramètre 'search' depuis la requête
         $searchTerm = $request->query('search', ''); // Valeur par défaut : chaîne vide
 
@@ -25,7 +25,7 @@ class DamcoController extends Controller
             $recherche =$this-> do_the_search($searchTerm, $search_url, $login_url, $base_url);
            return $recherche;
         }
-        else{  
+        else{
             return response()->json([
                 'success' => false,
                 'message' => 'Le paramètre "search" doit correspondre au format SKU (ex. 12-345-67).',
@@ -71,14 +71,14 @@ class DamcoController extends Controller
     {
         $loggedin_confirmation = "SESScc62906ef8fcad373001edc4a710b6ef";
         $loggedin = false;
-      
+
 
       //Étape 0. Initialiser un client HTTP
         $jar = new CookieJar();
         $client = new Client([
             'cookies' => $jar,
         ]);
-        
+
       //Étape 1. Extrait form_build_id de la page
         $htmlResponse = $client->get($login_url, [
             'verify' => false, // Désactive la vérification SSL
@@ -90,7 +90,7 @@ class DamcoController extends Controller
             return $loggedin = false;
         }
 
-      // Étape 2 : Préparer les données pour la connexion  
+      // Étape 2 : Préparer les données pour la connexion
         $headers = [
             'Content-Type' => 'application/x-www-form-urlencoded',
             'User-Agent' => 'La Remise',
@@ -128,7 +128,7 @@ class DamcoController extends Controller
 
     private function search_item(Client $client,string $searchTerm,string $search_url): array
     {
-      // Étape 1 : Préparer les données pour de recherche 
+      // Étape 1 : Préparer les données pour de recherche
         $headers = [
             'Content-Type' => 'application/x-www-form-urlencoded',
             'User-Agent' => 'La Remise',
@@ -139,11 +139,11 @@ class DamcoController extends Controller
             'view' => 'item',
         ];
       // Étape 2 : Envoyer la requête GET de recherche
-        //TODO remove "'verify' => false" and use a more secure way to access  
+        //TODO remove "'verify' => false" and use a more secure way to access
         $searchResponse = $client->request('GET', $search_url, [
             'headers' => $headers,
             'query' => $searchDict, // Ajoute les paramètres GET
-            'verify' => false, 
+            'verify' => false,
         ]);
 
       // Étape 3 : Obtenir la réponse sous forme de chaîne et extrait la liste des cartes de produit
@@ -161,13 +161,13 @@ class DamcoController extends Controller
                     $searchPage = $client->request('GET', $search_url, [
                         'headers' => $headers,
                         'query' => $searchDict, // Ajoute les paramètres GET
-                        'verify' => false, 
+                        'verify' => false,
                     ]);
                     $page_cards = $this -> extractHtmlElements( $searchPage->getBody(), 'div','class', 'mb-4 justify-content-center align-items-center vcatalog-item');
                   $list_cards = array_merge($list_cards,$page_cards );
                 }
             }
-            
+
         return $list_cards;
     }
 
@@ -182,7 +182,7 @@ class DamcoController extends Controller
             $item_name = $html_name[0];
 
             $html_price = $this -> extractHtmlElements( $card, 'span', 'class','text-grey mr-1', 'content');
-            $item_price = explode("PDSF: ", $html_price[0])[1];
+            $item_price = explode("PDSF: $", $html_price[0])[1];
 
             $html_instock = $this -> extractHtmlElements( $card, 'span', 'class', 'badge-primary');
             if (str_contains($html_instock[0], 'glyphicon-ok-sign') ) {
@@ -256,5 +256,5 @@ class DamcoController extends Controller
         }
 
         return $elements;
-    }      
+    }
 }
