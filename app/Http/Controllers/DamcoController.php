@@ -180,6 +180,7 @@ class DamcoController extends Controller
 
             $html_name = $this -> extractHtmlElements( $card, 'h5', '', '', 'content' );
             $item_name = $html_name[0];
+            $item_name = explode(" ()", $item_name)[0];
 
             $html_price = $this -> extractHtmlElements( $card, 'span', 'class','text-grey mr-1', 'content');
             $item_price = explode("PDSF: $", $html_price[0])[1];
