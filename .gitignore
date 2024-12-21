@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/.ovhconfig
 /storage/*.key
 /storage/pail
 /vendor
