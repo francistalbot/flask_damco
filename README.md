@@ -66,3 +66,5 @@ php artisan key:generate
 php artisan serve
 ```
 
+## Acknowledgements
+This application was inspired and derives code from both [Flask Babac](https://github.com/normcyr/flask_babac) and [Recherche Babac](https://github.com/normcyr/recherche_babac2).
