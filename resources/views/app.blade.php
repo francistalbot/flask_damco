@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html class="h-100">
 <head>
-    <link rel="icon" type="image/png" href="{{ url('images/favicon.ico') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url('images/favicon-32x32.png') }}">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
