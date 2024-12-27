@@ -9,6 +9,7 @@ import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 import 'datatables.net-dt/css/dataTables.dataTables.css';
 DataTable.use(DT);
+import { useTranslation } from 'react-i18next';
 // Styled Components
 const Error = styled.div`
 color: red;
@@ -63,14 +64,14 @@ const ProductList = () => {
         setSearch(values.search);
         resetForm();
   };
-
+  const { t, i18n } = useTranslation();
   return (
     <div>
       {products.length === 0 && (
         <FlaskLogo/>
       )}
       <div className='container-fluid text-center p-3'>
-        <h1>Search the Damco catalog </h1>
+        <h1>{t("welcome")}</h1>
         <SearchForm handleSubmit={handleSubmit} loading={loading}/>
         <img className='preload-image' src='/images/loading.gif' alt='loading...'/>
         {loading &&
