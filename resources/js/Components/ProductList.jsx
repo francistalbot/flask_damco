@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Spin } from 'antd';
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -8,7 +7,10 @@ import { Button, FormGroup, FormLabel } from 'react-bootstrap';
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 import 'datatables.net-dt/css/dataTables.dataTables.css';
+import { useTranslation ,Trans } from 'react-i18next';
+
 DataTable.use(DT);
+
 // Styled Components
 const Error = styled.div`
 color: red;
@@ -63,14 +65,17 @@ const ProductList = () => {
         setSearch(values.search);
         resetForm();
   };
-
+  const searchValue = "Francis";const count = 1;
+  const { t, i18n } = useTranslation();
   return (
     <div>
       {products.length === 0 && (
         <FlaskLogo/>
       )}
       <div className='container-fluid text-center p-3'>
-        <h1>Search the Damco catalog </h1>
+        <h1>
+          <Trans i18nKey="welcome" values={{ search: searchValue }} count={2}/> 
+        </h1>
         <SearchForm handleSubmit={handleSubmit} loading={loading}/>
         <img className='preload-image' src='/images/loading.gif' alt='loading...'/>
         {loading &&
@@ -207,11 +212,12 @@ const FlaskLogo = () => {
 };
 
 const SearchForm = ({handleSubmit, loading}) => {
+  const { t, i18n } = useTranslation();
 
   const validationSchema = Yup.object({
     search: Yup.string()
-    .required('Identifiant requis')
-    .matches(/[a-zA-Z0-9 ,-.\/\"]/, 'Ne peut pas contenir de caractères spéciaux')
+    .required(t('searchInput.empty'))
+    .matches(/[a-zA-Z0-9 ,-.\/\"]/, t('searchInput.invalid'))
   });
 
   return(
@@ -224,12 +230,12 @@ const SearchForm = ({handleSubmit, loading}) => {
             <Form className='mb-3'>
               <FormGroup>
                 <p>
-                  <FormLabel htmlFor="search"> Type the product number in order to obtain its price and availability: </FormLabel>
+                  <FormLabel htmlFor="search"> <Trans i18nKey="SearchLabel"/></FormLabel>
                 </p>
                 <div>
-                  <Field type="text" name="search" placeholder="12-345-67" size="28"/>
-                  <StyledButton type="primary" $htmlType="submit" disabled={loading} $iconPosition="end" >
-                    Search
+                  <Field type="text" name="search" placeholder={t('searchInput.placeholder')} size="28"/>
+                  <StyledButton type="primary" $htmlType="submit" disabled={loading|isSubmitting} $iconPosition="end" >
+                    <Trans i18nKey="Search"/>
                   </StyledButton>
                 </div>
               <ErrorMessage name="search" component={Error} />
