@@ -22,10 +22,12 @@
         "vite": "^6.0"
     },
     "dependencies": {
-        "antd": "^5.22.4",
         "datatables.net-dt": "^2.1.8",
         "datatables.net-react": "^1.0.0",
         "formik": "^2.4.6",
+        "i18next": "^24.2.0",
+        "i18next-http-backend": "^3.0.1",
+        "react-i18next": "^15.2.0",
         "styled-components": "^6.1.13",
         "yup": "^1.5.0"
     }
