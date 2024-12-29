@@ -65,7 +65,7 @@ const ProductList = () => {
         setSearch(values.search);
         resetForm();
   };
-  const searchValue = "Francis";const count = 1;
+
   const { t, i18n } = useTranslation();
   return (
     <div>
@@ -74,9 +74,9 @@ const ProductList = () => {
       )}
       <div className='container-fluid text-center p-3'>
         <h1>
-          <Trans i18nKey="welcome" values={{ search: searchValue }} count={2}/> 
+          <Trans i18nKey="welcome" /> 
         </h1>
-        <SearchForm handleSubmit={handleSubmit} loading={loading}/>
+        <SearchForm handleSubmit={handleSubmit} loading={loading} trans={t}/>
         <img className='preload-image' src='/images/loading.gif' alt='loading...'/>
         {loading &&
           <LoadingAnimation/>
@@ -84,55 +84,52 @@ const ProductList = () => {
 
       {search.valueOf() != ('').valueOf()
       && loading === false && (
-        <SearchResult products={products} loading={loading} search={search} error={error} />
+        <SearchResult products={products} search={search} error={error} trans={t} />
       )}
       </div>
     </div>
   );
 };
-const SearchResult = ({products,loading,search, error}) => {
+
+const SearchResult = ({products,search, error, trans}) => {
   if (error) {
     return (
       <div className='container'>
-        <p className='error_message'>Erreur : {error}</p>
+        <p className='error_message'><Trans i18nKey="Error" values={{errorMessage : error}}/></p>
       </div>
     );
   }
   
-  const searchUrl = "c"+{search};
-  if(products.length == 0) {
-    return(
-      <div className='container'>
-      <p className='error_message'>No product found.</p>
-      </div>
-    );
+  const searchUrl = `https://www.damourbicycle.com/search-damco?search=${encodeURIComponent(search)}`;
+  //Output the suffixe for the SearchSummary name string depending on the number of products found
+  const getSearchSummaryKey = (count) => {
+    const keyMapping = {
+      0: 'none',
+      1: 'one',
+      120: 'max',
+    };
+    return keyMapping[count] || 'many';
   }
-
-  if(products.length >= 0){
-      return(  
+  
+  return(  
     <div className='container'>
-        {products.length === 120 ? (
-          <p> Lots of items were found. Printing the first 120 items for <b>{search}</b> on Cycle Babac. More results can be inspected&#160; 
-          <a href={`https://www.damourbicycle.com/search-damco?search=${encodeURIComponent(search)}`}>here</a>.
-          </p>
-        ) : (
-          <p>{products.length} results found for <b>{search}</b> on Damco.</p>
-        )}
-        <p>You can click on the product number in order to access the product page on Damco website.</p>
-        
-        <ProductsTable products={products} error={error}/>
+      <p>
+       <Trans i18nKey={"searchSummary."+getSearchSummaryKey(products.length)} 
+          values={{search:search, searchUrl:searchUrl}}
+          count={products.length}
+          components={[ <a href={searchUrl}/> ]}/>
+      </p>
+      {products.length > 0 && (
+        <>
+          <p>You can click on the product number in order to access the product page on Damco website.</p>
+          <ProductsTable products={products} trans={trans}/>
+        </>
+      )}
       </div>
       );
-    }
-  
-    return (
-      <div className='container'>
-        <p className='error_message'>An error have occured</p>
-      </div>
-    );
   
 }
-const ProductsTable = ({products, error}) => {
+const ProductsTable = ({products, trans}) => {
 
   const columns = [
   {
@@ -148,20 +145,20 @@ const ProductsTable = ({products, error}) => {
     )
   },
   {
-    title: 'Name',
+    title: trans('producTable.Name'),
     data: 'name'  // Correspond à la clé "name"
   },
   {
-    title: 'Retail Price',
+    title: trans('producTable.RetailPrice'),
     data: 'price',  // Correspond à la clé "price"
     render: (data) => (
         `${data}$`
     )
   },
   {
-    title: 'In Stock?',
+    title: trans('producTable.InStock?'),
     data: 'instock',  // Correspond à la clé "instock"
-    render: (data) => (data ? 'Yes' : 'No')  // Convertir les booléens en texte lisible
+    render: (data) => (data ? trans('Yes') : trans('No'))  // Convertir les booléens en texte lisible
   }];
  return(
     <DataTable
@@ -192,12 +189,11 @@ const ProductsTable = ({products, error}) => {
 )};
 
 const LoadingAnimation = () => {
-
   return(
     <div className='container'>
       <img src='/images/loading.gif' alt='loading...'/>
       <p>
-        Riding through the Damco catalog...
+        <Trans i18nKey="Searching..."/>
       </p>
     </div>
   )
@@ -211,13 +207,12 @@ const FlaskLogo = () => {
   )
 };
 
-const SearchForm = ({handleSubmit, loading}) => {
-  const { t, i18n } = useTranslation();
+const SearchForm = ({handleSubmit, loading, trans}) => {
 
   const validationSchema = Yup.object({
     search: Yup.string()
-    .required(t('searchInput.empty'))
-    .matches(/[a-zA-Z0-9 ,-.\/\"]/, t('searchInput.invalid'))
+    .required(trans('searchInput.empty'))
+    .matches(/[a-zA-Z0-9 ,-.\/\"]/, trans('searchInput.invalid'))
   });
 
   return(
@@ -233,7 +228,7 @@ const SearchForm = ({handleSubmit, loading}) => {
                   <FormLabel htmlFor="search"> <Trans i18nKey="SearchLabel"/></FormLabel>
                 </p>
                 <div>
-                  <Field type="text" name="search" placeholder={t('searchInput.placeholder')} size="28"/>
+                  <Field type="text" name="search" placeholder={trans('searchInput.placeholder')} size="28"/>
                   <StyledButton type="primary" $htmlType="submit" disabled={loading|isSubmitting} $iconPosition="end" >
                     <Trans i18nKey="Search"/>
                   </StyledButton>
