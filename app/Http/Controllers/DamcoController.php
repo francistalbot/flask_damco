@@ -11,7 +11,6 @@ class DamcoController extends Controller
 {
     private $skuPattern = "/^\d{2}[-]?\d{3}[-]?\d{2}$/";
     private $textPattern = "/[a-zA-Z0-9]/";
-//      ,-.\/\"
 
     public function DamcoSearch(Request $request)
     {
@@ -19,12 +18,17 @@ class DamcoController extends Controller
         $search_url = "https://www.damourbicycle.com/search-damco/";
         $login_url = "https://www.damourbicycle.com/user/login";
 
+        // Récupérez le paramètre 'lang' depuis la requête
+        $lang = $request->query('lang', '');
+        if ($lang === 'fr')
+            $search_url = $base_url.'/fr/search-damco/';
+
         // Récupérez le paramètre 'search' depuis la requête
         $searchTerm = $request->query('search', ''); // Valeur par défaut : chaîne vide
-
         // Valider le terme de recherche
         if (preg_match($this->textPattern, $searchTerm)){
             $recherche =$this-> do_the_search($searchTerm, $search_url, $login_url, $base_url);
+          
            return $recherche;
         }
         elseif (preg_match($this->textPattern, $searchTerm)){
@@ -47,7 +51,6 @@ class DamcoController extends Controller
 
             //Create a new client and connect it to the website
             [$client, $loggedin] = $this -> create_session($username,$password,$login_url);
-
             if ($loggedin){
                 //Search on the website and get the html cards of every product returned
                 $list_cards = $this -> search_item($client, $searchTerm, $search_url);
@@ -184,16 +187,17 @@ class DamcoController extends Controller
     {
         $list_products = [];
         foreach( $list_cards as $card){
+            //echo $card;
             $html_sku = $this -> extractHtmlElements( $card, 'p', 'class', 'font-iten-sku', 'content');
             $item_sku = explode("Item: ", $html_sku[0])[1];
-
+            
             $html_name = $this -> extractHtmlElements( $card, 'h5', '', '', 'content' );
             $item_name = $html_name[0];
             $item_name = explode(" ()", $item_name)[0];
 
             $html_price = $this -> extractHtmlElements( $card, 'span', 'class','text-grey mr-1', 'content');
-            $item_price = explode("PDSF: $", $html_price[0])[1];
-
+            $item_price = explode("$", $html_price[0])[1];
+            
             $html_instock = $this -> extractHtmlElements( $card, 'span', 'class', 'badge-primary');
             if (str_contains($html_instock[0], 'glyphicon-ok-sign') ) {
                 $item_instock = true;
