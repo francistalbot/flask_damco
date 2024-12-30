@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Spin } from 'antd';
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -8,8 +7,11 @@ import { Button, FormGroup, FormLabel } from 'react-bootstrap';
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 import 'datatables.net-dt/css/dataTables.dataTables.css';
+import { useTranslation ,Trans } from 'react-i18next';
+import i18next from '../i18n'; 
+
 DataTable.use(DT);
-import { useTranslation } from 'react-i18next';
+
 // Styled Components
 const Error = styled.div`
 color: red;
@@ -41,11 +43,12 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     if(search.valueOf() != ('').valueOf())
       axios
-      .get('damco-search?search=' + search)
+      .get('damco-search?search=' + search 
+        + '&lang='+ i18n.language)
       .then((response) => {
         setProducts(response.data.list_products);
         setLoading(false);
@@ -64,6 +67,7 @@ const ProductList = () => {
         setSearch(values.search);
         resetForm();
   };
+
   const { t, i18n } = useTranslation();
   return (
     <div>
@@ -71,8 +75,10 @@ const ProductList = () => {
         <FlaskLogo/>
       )}
       <div className='container-fluid text-center p-3'>
-        <h1>{t("welcome")}</h1>
-        <SearchForm handleSubmit={handleSubmit} loading={loading}/>
+        <h1>
+          <Trans i18nKey="welcome" /> 
+        </h1>
+        <SearchForm handleSubmit={handleSubmit} loading={loading} />
         <img className='preload-image' src='/images/loading.gif' alt='loading...'/>
         {loading &&
           <LoadingAnimation/>
@@ -80,55 +86,54 @@ const ProductList = () => {
 
       {search.valueOf() != ('').valueOf()
       && loading === false && (
-        <SearchResult products={products} loading={loading} search={search} error={error} />
+        <SearchResult products={products} search={search} error={error} />
       )}
       </div>
     </div>
   );
 };
-const SearchResult = ({products,loading,search, error}) => {
+
+const SearchResult = ({products,search, error}) => {
   if (error) {
     return (
       <div className='container'>
-        <p className='error_message'>Erreur : {error}</p>
+        <p className='error_message'><Trans i18nKey="Error" values={{errorMessage : error}}/></p>
       </div>
     );
   }
   
-  const searchUrl = "c"+{search};
-  if(products.length == 0) {
-    return(
-      <div className='container'>
-      <p className='error_message'>No product found.</p>
-      </div>
-    );
+  const searchUrl = `https://www.damourbicycle.com/search-damco?search=${encodeURIComponent(search)}`;
+  //Output the suffixe for the SearchSummary name string depending on the number of products found
+  const getSearchSummaryKey = (count) => {
+    const keyMapping = {
+      0: 'none',
+      1: 'one',
+      120: 'max',
+    };
+    return keyMapping[count] || 'many';
   }
-
-  if(products.length >= 0){
-      return(  
+  
+  return(  
     <div className='container'>
-        {products.length === 120 ? (
-          <p> Lots of items were found. Printing the first 120 items for <b>{search}</b> on Cycle Babac. More results can be inspected&#160; 
-          <a href={`https://www.damourbicycle.com/search-damco?search=${encodeURIComponent(search)}`}>here</a>.
-          </p>
-        ) : (
-          <p>{products.length} results found for <b>{search}</b> on Damco.</p>
-        )}
-        <p>You can click on the product number in order to access the product page on Damco website.</p>
-        
-        <ProductsTable products={products} error={error}/>
+      <p>
+       <Trans i18nKey={"searchSummary."+getSearchSummaryKey(products.length)} 
+          values={{search:search, searchUrl:searchUrl}}
+          count={products.length}
+          components={[ 
+          <a href={searchUrl}/>,
+          <span className="error_message"></span> ]}/>
+      </p>
+      {products.length > 0 && (
+        <>
+          <p>You can click on the product number in order to access the product page on Damco website.</p>
+          <ProductsTable products={products}/>
+        </>
+      )}
       </div>
       );
-    }
-  
-    return (
-      <div className='container'>
-        <p className='error_message'>An error have occured</p>
-      </div>
-    );
   
 }
-const ProductsTable = ({products, error}) => {
+const ProductsTable = ({products}) => {
 
   const columns = [
   {
@@ -144,20 +149,20 @@ const ProductsTable = ({products, error}) => {
     )
   },
   {
-    title: 'Name',
+    title: i18next.t('producTable.Name'),
     data: 'name'  // Correspond à la clé "name"
   },
   {
-    title: 'Retail Price',
+    title: i18next.t('producTable.RetailPrice'),
     data: 'price',  // Correspond à la clé "price"
     render: (data) => (
         `${data}$`
     )
   },
   {
-    title: 'In Stock?',
+    title: i18next.t('producTable.InStock?'),
     data: 'instock',  // Correspond à la clé "instock"
-    render: (data) => (data ? 'Yes' : 'No')  // Convertir les booléens en texte lisible
+    render: (data) => (data ? i18next.t('Yes') : i18next.t('No'))  // Convertir les booléens en texte lisible
   }];
  return(
     <DataTable
@@ -188,12 +193,11 @@ const ProductsTable = ({products, error}) => {
 )};
 
 const LoadingAnimation = () => {
-
   return(
     <div className='container'>
       <img src='/images/loading.gif' alt='loading...'/>
       <p>
-        Riding through the Damco catalog...
+        <Trans i18nKey="Searching..."/>
       </p>
     </div>
   )
@@ -211,8 +215,8 @@ const SearchForm = ({handleSubmit, loading}) => {
 
   const validationSchema = Yup.object({
     search: Yup.string()
-    .required('Identifiant requis')
-    .matches(/[a-zA-Z0-9 ,-.\/\"]/, 'Ne peut pas contenir de caractères spéciaux')
+    .required(i18next.t('searchInput.empty'))
+    .matches(/[a-zA-Z0-9 ,-.\/\"]/, i18next.t('searchInput.invalid'))
   });
 
   return(
@@ -225,12 +229,12 @@ const SearchForm = ({handleSubmit, loading}) => {
             <Form className='mb-3'>
               <FormGroup>
                 <p>
-                  <FormLabel htmlFor="search"> Type the product number in order to obtain its price and availability: </FormLabel>
+                  <FormLabel htmlFor="search"> <Trans i18nKey="SearchLabel"/></FormLabel>
                 </p>
                 <div>
-                  <Field type="text" name="search" placeholder="12-345-67" size="28"/>
-                  <StyledButton type="primary" $htmlType="submit" disabled={loading} $iconPosition="end" >
-                    Search
+                  <Field type="text" name="search" placeholder={i18next.t('searchInput.placeholder')} size="28"/>
+                  <StyledButton type="primary" $htmlType="submit" disabled={loading|isSubmitting} $iconPosition="end" >
+                    <Trans i18nKey="Search"/>
                   </StyledButton>
                 </div>
               <ErrorMessage name="search" component={Error} />
