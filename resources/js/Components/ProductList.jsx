@@ -8,6 +8,7 @@ import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 import 'datatables.net-dt/css/dataTables.dataTables.css';
 import { useTranslation ,Trans } from 'react-i18next';
+import i18next from '../i18n'; 
 
 DataTable.use(DT);
 
@@ -42,7 +43,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     if(search.valueOf() != ('').valueOf())
       axios
@@ -76,7 +77,7 @@ const ProductList = () => {
         <h1>
           <Trans i18nKey="welcome" /> 
         </h1>
-        <SearchForm handleSubmit={handleSubmit} loading={loading} trans={t}/>
+        <SearchForm handleSubmit={handleSubmit} loading={loading} />
         <img className='preload-image' src='/images/loading.gif' alt='loading...'/>
         {loading &&
           <LoadingAnimation/>
@@ -84,14 +85,14 @@ const ProductList = () => {
 
       {search.valueOf() != ('').valueOf()
       && loading === false && (
-        <SearchResult products={products} search={search} error={error} trans={t} />
+        <SearchResult products={products} search={search} error={error} />
       )}
       </div>
     </div>
   );
 };
 
-const SearchResult = ({products,search, error, trans}) => {
+const SearchResult = ({products,search, error}) => {
   if (error) {
     return (
       <div className='container'>
@@ -122,14 +123,14 @@ const SearchResult = ({products,search, error, trans}) => {
       {products.length > 0 && (
         <>
           <p>You can click on the product number in order to access the product page on Damco website.</p>
-          <ProductsTable products={products} trans={trans}/>
+          <ProductsTable products={products}/>
         </>
       )}
       </div>
       );
   
 }
-const ProductsTable = ({products, trans}) => {
+const ProductsTable = ({products}) => {
 
   const columns = [
   {
@@ -145,20 +146,20 @@ const ProductsTable = ({products, trans}) => {
     )
   },
   {
-    title: trans('producTable.Name'),
+    title: i18next.t('producTable.Name'),
     data: 'name'  // Correspond à la clé "name"
   },
   {
-    title: trans('producTable.RetailPrice'),
+    title: i18next.t('producTable.RetailPrice'),
     data: 'price',  // Correspond à la clé "price"
     render: (data) => (
         `${data}$`
     )
   },
   {
-    title: trans('producTable.InStock?'),
+    title: i18next.t('producTable.InStock?'),
     data: 'instock',  // Correspond à la clé "instock"
-    render: (data) => (data ? trans('Yes') : trans('No'))  // Convertir les booléens en texte lisible
+    render: (data) => (data ? i18next.t('Yes') : i18next.t('No'))  // Convertir les booléens en texte lisible
   }];
  return(
     <DataTable
@@ -207,12 +208,12 @@ const FlaskLogo = () => {
   )
 };
 
-const SearchForm = ({handleSubmit, loading, trans}) => {
+const SearchForm = ({handleSubmit, loading}) => {
 
   const validationSchema = Yup.object({
     search: Yup.string()
-    .required(trans('searchInput.empty'))
-    .matches(/[a-zA-Z0-9 ,-.\/\"]/, trans('searchInput.invalid'))
+    .required(i18next.t('searchInput.empty'))
+    .matches(/[a-zA-Z0-9 ,-.\/\"]/, i18next.t('searchInput.invalid'))
   });
 
   return(
@@ -228,7 +229,7 @@ const SearchForm = ({handleSubmit, loading, trans}) => {
                   <FormLabel htmlFor="search"> <Trans i18nKey="SearchLabel"/></FormLabel>
                 </p>
                 <div>
-                  <Field type="text" name="search" placeholder={trans('searchInput.placeholder')} size="28"/>
+                  <Field type="text" name="search" placeholder={i18next.t('searchInput.placeholder')} size="28"/>
                   <StyledButton type="primary" $htmlType="submit" disabled={loading|isSubmitting} $iconPosition="end" >
                     <Trans i18nKey="Search"/>
                   </StyledButton>

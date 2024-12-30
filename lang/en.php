@@ -14,7 +14,6 @@ return [
         'Name' => 'Name',
         'RetailPrice' => 'Retail Price',
         'InStock?' => 'In Stock?',
-        'Yes' => 'Yes',
     ],
     
     'searchSummary' => [
