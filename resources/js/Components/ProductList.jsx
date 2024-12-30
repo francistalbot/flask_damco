@@ -47,7 +47,8 @@ const ProductList = () => {
   useEffect(() => {
     if(search.valueOf() != ('').valueOf())
       axios
-      .get('damco-search?search=' + search)
+      .get('damco-search?search=' + search 
+        + '&lang='+ i18n.language)
       .then((response) => {
         setProducts(response.data.list_products);
         setLoading(false);
