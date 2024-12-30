@@ -118,7 +118,9 @@ const SearchResult = ({products,search, error}) => {
        <Trans i18nKey={"searchSummary."+getSearchSummaryKey(products.length)} 
           values={{search:search, searchUrl:searchUrl}}
           count={products.length}
-          components={[ <a href={searchUrl}/> ]}/>
+          components={[ 
+          <a href={searchUrl}/>,
+          <span className="error_message"></span> ]}/>
       </p>
       {products.length > 0 && (
         <>

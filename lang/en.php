@@ -17,7 +17,7 @@ return [
     ],
     
     'searchSummary' => [
-        'none' => '<span className="error_message">No product found.</span>',
+        'none' => '<1>No product found.</1>',
         'one' => 'One result found for <strong>{{search}}</strong> on Damco.',
         'many' => '{{count}} results found for <strong>{{search}}</strong> on Damco.',
         'max' => 'Lots of items were found. Printing the first {{count}} items for {{search}} on Cycle Babac. More results can be inspected
