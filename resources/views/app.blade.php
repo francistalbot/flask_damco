@@ -6,7 +6,7 @@
     @viteReactRefresh
     @vite([
         'resources/sass/app.scss',
-        'resources/js/app.jsx',
+        'resources/js/index.jsx',
         ])
     <!--favicon-->
     <link rel="shortcut icon" href="/images/favicon.ico">
