@@ -21,9 +21,8 @@
         <a class="navbar-brand" href="/">Flask Damco</a>
     </nav>
     <!--Main Content -->
-    <div class="flex-shrink-0">
-        <div id="root"></div>
-    </div>
+    <main id="root" class="flex-shrink-0"></main>
+    <!--Footer-->
     <footer class="footer mt-auto py-3">
         <div>   
             <img src="/images/github_logo_32px.png" alt="GitHub logo" width="24px" \="">

@@ -70,7 +70,7 @@ const ProductList = () => {
 
   const { t, i18n } = useTranslation();
   return (
-    <div>
+    <>
       {products.length === 0 && (
         <FlaskLogo/>
       )}
@@ -89,7 +89,7 @@ const ProductList = () => {
         <SearchResult products={products} search={search} error={error} />
       )}
       </div>
-    </div>
+    </>
   );
 };
 
