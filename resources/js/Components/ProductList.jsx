@@ -125,7 +125,7 @@ const SearchResult = ({products,search, error}) => {
       </p>
       {products.length > 0 && (
         <>
-          <p>You can click on the product number in order to access the product page on Damco website.</p>
+          <p><Trans i18nKey={"searchSummary.instruction"} /></p>
           <ProductsTable products={products}/>
         </>
       )}
