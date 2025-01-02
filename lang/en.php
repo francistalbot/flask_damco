@@ -22,6 +22,8 @@ return [
         'many' => '{{count}} results found for <strong>{{search}}</strong> on Damco.',
         'max' => 'Lots of items were found. Printing the first {{count}} items for {{search}} on Cycle Babac. More results can be inspected
             <0  href=\"https://example.com/\">here</0>',
+        'instruction' => 'You can click on the product number in order to access the product page on Damco website.',
+
 
     ],
     'searchInput' => [
