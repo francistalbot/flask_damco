@@ -1,13 +1,14 @@
 import React from "react";
-import ProductList from "../Components/ProductList";
-//import { useDispatch, useSelector } from "react-redux";
+import Banner from "../Components/Banner";
+import SearchContainer from "../Components/SearchContainer";
+import { useTranslation  } from 'react-i18next';
+
 const HomePage = () => {
- //   const dispatch = useDispatch();
-  //  const { threads, loading, error } = useSelector((state) => state.threads);
-  
+  const { t, i18n } = useTranslation();
     return (
         <>
-            <ProductList/>
+            <Banner/>
+            <SearchContainer/>
         </>
     )}
 

@@ -12,10 +12,10 @@ const searchSlice = createSlice({
     initialState,
     reducers: {
         setSearch: (state, action) => {
-            state.threads = action.payload;
+            state.search = action.payload;
         },
         setProducts: (state, action) => {
-            state.threads = action.payload;
+            state.products = action.payload;
         },
         setLoading: (state, action) => {
             state.loading = action.payload;

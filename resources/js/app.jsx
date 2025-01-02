@@ -1,5 +1,3 @@
-
-import "./i18n";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -16,18 +14,3 @@ const App = () => {
 };
 
 export default App;
-
-/*const routes = [
-    { 
-        path: '/',
-        element : (
-            <HomePage/>
-        ),
-    }
-]
-
-createRoot(document.getElementById('root')).render(
-    <RouterProvider
-        router={createBrowserRouter(routes)}
-        />
-);*/
