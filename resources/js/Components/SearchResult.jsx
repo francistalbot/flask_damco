@@ -57,8 +57,8 @@ export const SearchResult = () => {
           )}
           </Container>
       );
-    
   }
+  
   const ProductsTable = ({products}) => {
   
     const columns = [
