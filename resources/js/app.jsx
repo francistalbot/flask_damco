@@ -1,18 +1,16 @@
-import { createRoot} from 'react-dom/client'
-import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import "./i18n";
-import HomePage from './pages/HomePage';
-const routes = [
-    { 
-        path: '/',
-        element : (
-            <HomePage/>
-        ),
-    }
-]
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 
-createRoot(document.getElementById('root')).render(
-    <RouterProvider
-        router={createBrowserRouter(routes)}
-        />
-);
+const App = () => {
+  return (
+    <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+    </Router>
+
+  );
+};
+
+export default App;

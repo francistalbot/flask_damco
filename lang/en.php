@@ -24,6 +24,7 @@ return [
             <0  href=\"https://example.com/\">here</0>',
         'instruction' => 'You can click on the product number in order to access the product page on Damco website.',
 
+
     ],
     'searchInput' => [
         'empty' => 'The search bar cannot be empty.',

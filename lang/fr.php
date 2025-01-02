@@ -24,6 +24,7 @@ return [
         'max' => 'De nombreux articles ont été trouvés. Affichage des {{count}} premiers articles pour {{search}} sur Cycle Babac. Plus de résultats peuvent être consultés 
             <0 href=\"https://example.com/\">ici</0>',
         'instruction' => 'Vous pouvez cliquer sur le numéro de produit pour accéder à la page du produit sur le site Damco.',
+    
     ],
 
     'searchInput' => [
