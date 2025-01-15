@@ -65,6 +65,8 @@ Then edit the `.env` file and chage the value of the`DAMCO_USERNAME` and `DAMCO_
 php artisan key:generate
 php artisan serve
 ```
+## Notes
+The Damco account's language should be set to English. When so, the flask_damco search will return results in the correct language whether the client's browser is set to French or English. Otherwise, if the Damco account is set to French, the search will only return results when the browser is set to French as well.
 
 ## Acknowledgements
 This application was inspired and derives code from both [Flask Babac](https://github.com/normcyr/flask_babac) and [Recherche Babac](https://github.com/normcyr/recherche_babac2).
