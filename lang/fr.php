@@ -4,7 +4,7 @@ return [
     'welcome' => 'Rechercher dans le catalogue Damco',
     'Search' => 'Rechercher',
     'SearchLabel' => 'Tapez le nom d\'une pièce ou un numéro de produit pour obtenir son prix et sa disponibilité :',
-    'Searching...' => 'Parcours du catalogue Cycle Babac en cours...',
+    'Searching...' => 'Parcours du catalogue de Damco en cours...',
     'NoProductFound' => 'Aucun produit trouvé',
     'Error' => 'Erreur : {{errorMessage}}',
     'Yes' => 'Oui',
@@ -30,6 +30,6 @@ return [
     'searchInput' => [
         'empty' => 'La barre de recherche ne peut pas être vide.',
         'invalid' => 'La recherche contient des caractères invalides.',
-        'placeholder' => 'ex. petites roues ou 12-345-67',
+        'placeholder' => 'ex. bidon ou 48-024-50',
     ],
 ];
