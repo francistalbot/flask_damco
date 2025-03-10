@@ -43,7 +43,7 @@ sudo apt install npm
 sudo apt install nodejs
 ```
 #### For Windows
-Install manually from https://windows.php.net/
+Install manually from https://windows.php.net/ and https://getcomposer.org/download/
 
 3. Create PHP and javascript dependancies and compile front-end assets
  
