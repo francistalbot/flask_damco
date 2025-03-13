@@ -31,10 +31,6 @@ class DamcoController extends Controller
           
            return $recherche;
         }
-        elseif (preg_match($this->textPattern, $searchTerm)){
-            $recherche =$this-> do_the_search($searchTerm, $search_url, $login_url, $base_url);
-           return $recherche;
-        }
         else{
             return response()->json([
                 'success' => false,
@@ -103,11 +99,13 @@ class DamcoController extends Controller
         $headers = [
             'Content-Type' => 'application/x-www-form-urlencoded',
             'User-Agent' => 'La Remise',
+            "Cookie" => "wordpress_test_cookie=WP+Cookie+check",
+            'Referer' => $login_url,
         ];
 
         $data = [
-            'name' => 'La Remise',
-            'pass' => 'Unbonmotdepasse.',
+            'name' => $username,
+            'pass' => $password,
             'form_build_id' => $form_build_id[0],
             'form_id' => 'user_login_form',
             'op' => 'Log+in',
@@ -117,11 +115,7 @@ class DamcoController extends Controller
         $loginResponse = $client->post($login_url, [
             'verify' => false, // Désactive la vérification SSL
             'form_params' => $data,
-            'headers' => [
-                "Cookie" => "wordpress_test_cookie=WP+Cookie+check",
-                'Referer' => $login_url,
-                'User-Agent' => 'La Remise',
-            ],
+            'headers' => $headers,
         ]);
       //Étape 4 : Confirme la connexion du client
         try{
