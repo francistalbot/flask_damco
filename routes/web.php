@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\DamcoController;
+use App\Http\Controllers\BabacController;
 use Illuminate\Support\Facades\Route;
 Route::get('/damco-search', [DamcoController::class, 'DamcoSearch']);
+Route::get('/babac-search', [BabacController::class, 'BabacSearch']);
 Route::get('/translations/{lang}', function ($lang) {
     $path = resource_path("../lang/{$lang}.php");
 
