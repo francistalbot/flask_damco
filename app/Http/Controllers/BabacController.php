@@ -44,18 +44,18 @@ class BabacController extends Controller
             
             if ($loggedin){
                 //Search on the website and get the page
-                [$list_cards, $single_result] = $this -> search_item($client, $searchTerm, $base_url);
+                [$list_cards, $single_result, $item_page_url] = $this -> search_item($client, $searchTerm, $base_url);
                 //Extract specific value (name, price, etc) from the page
-                $list_products = $this -> parse_results($list_cards, $base_url, $single_result);
+                $list_products = $this -> parse_results($list_cards, $base_url, $single_result, $item_page_url);
                 return response()->json([
                     'success' => true,
-                    'message' => '',
+                    'list_products' => $list_products,
                 ], 200);
             }
             else {
                 return response()->json([
                     'success' => false,
-                    'message' =>  "Login failed",
+                    'message' =>  'Login failed',
                 ], 401);
             }
 
@@ -140,11 +140,12 @@ class BabacController extends Controller
                 'track_redirects' => true
             ]
         ]);
-
       // Étape 3 : Check if the client have been redirect to a single product page
-        if ($searchResponse->getHeader('X-Guzzle-Redirect-History'))
+        $item_page_url= '';
+        if ($searchResponse->getHeader('X-Guzzle-Redirect-History')){
             $single_result = True;
-        else
+            $item_page_url = $searchResponse->getHeader('X-Guzzle-Redirect-History')[0];
+        } else
             $single_result = False;
 
       // Étape 4 : Extracts the html products cards of the page 
@@ -158,8 +159,6 @@ class BabacController extends Controller
             $next_page_url = $this -> extractHtmlElements( $searchResponse->getBody(), 'a','class', 'pagination-item-next-link', 'href');
             $page_num = 1;
             while($next_page_url && $page_num < MAX_PAGINATION_PAGE){
-                echo "Page".$page_num;
-               echo $next_page_url;
                 $page_num++;
                 $searchResponse = $client->request('GET', $next_page_url, [
                     'headers' => $headers,
@@ -169,12 +168,83 @@ class BabacController extends Controller
                 $next_page_url = $this -> extractHtmlElements( $searchResponse->getBody(), 'a','class', 'pagination-item-next-link', 'href');         
             }; 
         }
-        return [$list_cards, $single_result];
+        return [$list_cards, $single_result, $item_page_url];
     }
     
-    private function parse_results(array $list_cards, string $base_url)
+    private function parse_results(array $list_cards, string $base_url, bool $single_result, string $item_page_url)
     {
+            if($single_result)
+                $list_products = $this -> parse_single_result($list_cards[0], $item_page_url);
+            else 
+                $list_products = $this -> parse_multiple_results($list_cards);
+            
+        return $list_products;
     }
+
+    private function parse_single_result(string $card, string $item_page_url)
+    {
+        $item_sku = $this -> extractHtmlElements( $card, 'span', 'class', 'sku', 'content');
+
+        $item_name = $this -> extractHtmlElements( $card, 'h1', 'class', 'product_title', 'content' );
+
+        $item_price = $this -> extractHtmlElements( $card, 'bdi', '','', 'content');
+            
+        $html_instock = $this -> extractHtmlElements( $card, 'p', 'class', 'stock', 'content');
+        if (str_contains($html_instock, 'In stock') ) {
+            $item_instock = true;
+        } elseif(str_contains($html_instock, 'Out of stock')) {
+            $item_instock = false;
+        }
+        else{
+            $item_instock = 'Unable to determine';
+        }
+
+        $product[] = [
+            'sku' => $item_sku,
+            'name' => $item_name,
+            'price' => $item_price,
+            'instock' => $item_instock,
+            'page_url' => $item_page_url,
+        ];
+
+        return $product;
+    }
+
+    private function parse_multiple_results(array $list_cards)
+    {
+        $list_products = [];
+        foreach( $list_cards as $card){
+            $html_sku = $this -> extractHtmlElements( $card, 'div', 'class', 'sku', 'content');
+            $item_sku = explode("\n\t\t", $html_sku)[1];
+
+            $item_name = $this -> extractHtmlElements( $card, 'h3', 'class', 'title', 'content' );
+
+            $item_price = $this -> extractHtmlElements( $card, 'bdi', '','', 'content');
+                
+            $html_instock = $this -> extractHtmlElements( $card, 'div', 'class', 'stock', 'content');
+            if (str_contains($html_instock, 'In stock') ) {
+                $item_instock = true;
+            } elseif(str_contains($html_instock, 'Out of stock')) {
+                $item_instock = false;
+            }
+            else{
+                $item_instock = 'Unable to determine';
+            }
+
+            $item_url = $this -> extractHtmlElements( $card, 'a', 'class','woocommerce-LoopProduct-link woocommerce-loop-product__link', 'href');
+            
+            $list_products[] = [
+                'sku' => $item_sku,
+                'name' => $item_name,
+                'price' => $item_price,
+                'instock' => $item_instock,
+                'page_url' => $item_url,
+            ];
+        }
+
+        return $list_products;
+    }
+    
    
      /**
     * Fonction générique pour extraire des éléments HTML basés sur un attribut spécifique et sa valeur.
