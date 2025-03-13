@@ -104,7 +104,7 @@ class BabacController extends Controller
       //Étape 4 : Confirme la connexion du client
         foreach ($jar->toArray() as $cookie) {
             if (strpos($cookie['Name'], $loggedin_confirmation) === 0) { // Vérifie si le nom commence par "wordpress_logged_in_"
-                $loggedIn = true;
+                $loggedin = true;
                 break;
             }
         }
