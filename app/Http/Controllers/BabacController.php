@@ -20,6 +20,11 @@ class BabacController extends Controller
         $base_url = "https://cyclebabac.com/";
         $login_url = "https://cyclebabac.com/wp-login.php";
     
+        // Récupérez le paramètre 'lang' depuis la requête
+        $lang = $request->query('lang', '');
+        if ($lang === 'fr')
+            $base_url = $base_url.'fr/';
+
         // Récupérez le paramètre 'search' depuis la requête
         $searchTerm = $request->query('search', '');  // Valeur par défaut : chaîne vide
 
@@ -126,8 +131,8 @@ class BabacController extends Controller
         ];
 
         $searchDict = [
-            's' => $searchTerm,
             'product_cat' => '',
+            's' => $searchTerm,
             'post_type' => 'product',
         ];
       // Étape 2 : Envoyer la requête GET de recherche
@@ -189,10 +194,10 @@ class BabacController extends Controller
 
         $item_price = $this -> extractHtmlElements( $card, 'bdi', '','', 'content');
             
-        $html_instock = $this -> extractHtmlElements( $card, 'p', 'class', 'stock', 'content');
-        if (str_contains($html_instock, 'In stock') ) {
+        $html_instock = $this -> extractHtmlElements( $card, 'span', 'class', 'stock_wrapper', 'content');
+        if (str_contains($html_instock, 'In stock') || str_contains($html_instock, 'En inventaire') ) {
             $item_instock = true;
-        } elseif(str_contains($html_instock, 'Out of stock')) {
+        } elseif(str_contains($html_instock, 'Out of stock') || str_contains($html_instock, 'Rupture de stock')) {
             $item_instock = false;
         }
         else{
@@ -222,9 +227,9 @@ class BabacController extends Controller
             $item_price = $this -> extractHtmlElements( $card, 'bdi', '','', 'content');
                 
             $html_instock = $this -> extractHtmlElements( $card, 'div', 'class', 'stock', 'content');
-            if (str_contains($html_instock, 'In stock') ) {
+            if (str_contains($html_instock, 'In stock') ||  str_contains($html_instock, 'En inventaire')  ) {
                 $item_instock = true;
-            } elseif(str_contains($html_instock, 'Out of stock')) {
+            } elseif(str_contains($html_instock, 'Out of stock') ||  str_contains($html_instock, 'Rupture de stock') ) {
                 $item_instock = false;
             }
             else{
