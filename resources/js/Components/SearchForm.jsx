@@ -35,9 +35,8 @@ const StyledButton = styled.button`
     }
 `;
 
-const getProducts = async (search) => {
-    const response = await axios.get('damco-search?search=' + search 
-        + '&lang='+ i18next.language);
+const getProducts = async ( search, supplier) => {
+    const response = await axios.get( `${supplier}-search?search=${search}&lang=${i18next.language}`);
     return response.data;
 };
 export const SearchForm = () => {
@@ -47,10 +46,10 @@ export const SearchForm = () => {
     const handleSubmit = (values, { resetForm, setSubmitting, setErrors}) => {
         const searchProducts = async () => {
             try {
-                    dispatch(setSearch(values.search));
-                    dispatch(setLoading(true));
-                    const response = await getProducts(values.search); 
-                    dispatch(setProducts(response.list_products));
+                  dispatch(setSearch(values.search));
+                  dispatch(setLoading(true));
+                  const response = await getProducts(values.search,values.supplier);
+                  dispatch(setProducts(response.list_products));
                 } catch (err) {
                   dispatch(setError(err));
                   setErrors({ general: err });
@@ -71,7 +70,7 @@ export const SearchForm = () => {
     return(
         <>
         <Formik
-          initialValues={{ search: '',}}
+          initialValues={{ search: '', supplier:'damco'}}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
           >
@@ -79,14 +78,18 @@ export const SearchForm = () => {
               <Form className='mb-3'>
                 <FormGroup>
                   <p>
-                    <FormLabel htmlFor="search"> <Trans i18nKey="SearchLabel"/></FormLabel>
+                    <FormLabel htmlFor="search"> <Trans i18nKey="SearchLabel"/></FormLabel>                   
                   </p>
-                  <div>
-                    <Field type="text" name="search" placeholder={i18next.t('searchInput.placeholder')} size="28"/>
-                    <StyledButton type="primary" $htmlType="submit" disabled={loading|isSubmitting} $iconPosition="end" >
+                  <div >
+                    <Field as="select" name="supplier" className="input-group-text rounded-end-0 border-end-0" style={{display: "inline",height:"38px"}}>
+                      <option value="damco">Damco</option>
+                      <option value="babac">Babac</option>
+                    </Field>
+                    <Field type="text" name="search" placeholder={i18next.t('searchInput.placeholder')} size="28" className="form-control rounded-0" style={{display: "inline", width:"262px"}}/>
+                    <StyledButton type="primary" $htmlType="submit" disabled={loading|isSubmitting} $iconPosition="end" className="m-0 rounded-start-0" style={{display: "inline",height:"38px"}} >
                       <Trans i18nKey="Search"/>
                     </StyledButton>
-                  </div>
+                    </div>               
                   <ErrorMessage name="search" component={Error} />
                 </FormGroup>
               </Form>
